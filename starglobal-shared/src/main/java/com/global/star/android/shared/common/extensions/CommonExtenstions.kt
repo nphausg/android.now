@@ -1,9 +1,13 @@
 package vn.futagroup.android.shared.common.extensions
 
+import android.app.Activity
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcelable
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentActivity
 import java.io.Serializable
 
 fun Map<String, Any?>.toBundle(): Bundle = bundleOf(*this.toList().toTypedArray())
@@ -31,4 +35,24 @@ inline fun <reified T> Any.ofType(block: (T) -> Unit) {
     if (this is T) {
         block(this as T)
     }
+}
+
+/**
+ * https://stackoverflow.com/a/50915146/2198705
+ * Return true if this [Context] is available.
+ * Availability is defined as the following:
+ * + [Context] is not null
+ * + [Context] is not destroyed (tested with [FragmentActivity.isDestroyed] or [Activity.isDestroyed])
+ */
+fun Context?.isAvailable(): Boolean {
+    if (this == null) {
+        return false
+    } else if (this !is Application) {
+        if (this is FragmentActivity) {
+            return !this.isDestroyed
+        } else if (this is Activity) {
+            return !this.isDestroyed
+        }
+    }
+    return true
 }

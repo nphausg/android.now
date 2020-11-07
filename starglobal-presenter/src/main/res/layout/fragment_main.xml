@@ -4,40 +4,56 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_query"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/margin_medium"
             android:inputType="text"
-            android:scaleType="fitCenter"
-            android:visibility="gone" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="?actionBarSize"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:scaleType="fitCenter" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="16dp">
+            android:layout_height="@dimen/size_icon">
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progress_bar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:indeterminate="true" />
+                android:indeterminate="true"
+                android:visibility="gone" />
 
         </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/margin"
+                android:paddingTop="@dimen/margin"
+                android:paddingBottom="?actionBarSize"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <com.global.star.android.shared.screens.views.EmptyView
+                android:id="@+id/view_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:shared_message="@string/app_name"
+                app:shared_title="@string/app_name" />
+
+        </FrameLayout>
+
     </LinearLayout>
 
 </layout>

@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
 
 /**
  * Safely dispose = if not null and not already disposed
@@ -17,6 +18,13 @@ fun Disposable?.safeDispose() {
     }
 }
 
+fun <T> applyFormValidator(debounceTime: Long = 850): ObservableTransformer<T, T> {
+    return ObservableTransformer { observable ->
+        observable
+            .debounce(debounceTime, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+}
 
 fun <T> Observable<T>.applyScheduler(scheduler: Scheduler): Observable<T> =
     subscribeOn(scheduler).observeOn(AndroidSchedulers.mainThread())

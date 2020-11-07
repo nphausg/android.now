@@ -7,13 +7,14 @@ import com.global.star.android.R
 import com.global.star.android.databinding.FragmentMainBinding
 import com.global.star.android.screens.adapters.GithubUsersAdapters
 import com.global.star.android.shared.common.autoCleared
-import com.global.star.android.shared.common.extensions.gone
-import com.global.star.android.shared.common.extensions.isError
-import com.global.star.android.shared.common.extensions.isLoading
-import com.global.star.android.shared.common.extensions.visible
+import com.global.star.android.shared.common.extensions.*
+import com.global.star.android.shared.libs.rxlivedata.applyFormValidator
 import com.global.star.android.shared.libs.rxlivedata.observe
+import com.global.star.android.shared.libs.rxlivedata.safeDispose
 import com.global.star.android.shared.screens.fragments.BindingSharedFragment
 import com.global.star.android.vm.MainViewModel
+import com.jakewharton.rxbinding2.widget.afterTextChangeEvents
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -25,6 +26,7 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
     // endregion
 
     private var adapter by autoCleared<GithubUsersAdapters>()
+    private var textChangeDispose: Disposable? = null
 
     override fun onSyncViews(savedInstanceState: Bundle?) {
         super.onSyncViews(savedInstanceState)
@@ -50,18 +52,33 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
             val isError = loadState.isError()
             val isEmpty = loadState.isLoading() && adapter.isEmpty()
             if (isEmpty || isError) {
-                // binding.viewEmpty.show()
+                binding.viewEmpty.show()
                 binding.recyclerView.gone()
             } else {
-                // binding.viewEmpty.hide()
+                binding.viewEmpty.hide()
                 binding.recyclerView.visible()
             }
         }
+        textChangeDispose = binding.editQuery.afterTextChangeEvents()
+            .skipInitialValue()
+            .compose(applyFormValidator())
+            .subscribe({ event ->
+                val length = event.editable()?.length ?: 0
+                if (length > 1) {
+                    viewModel.searchPagingUsers(event.editable().toString())
+                } else {
+                    viewModel.loadRecentUsers()
+                }
+            }, { it.printStackTrace() })
+
+        binding.recyclerView.onItemClick { _, position ->
+            viewModel.moveToUser(adapter.get(position))
+        }
     }
 
-    override fun onSyncData() {
-        super.onSyncData()
-        viewModel.searchPagingUsers("g")
+    override fun onDestroyView() {
+        textChangeDispose.safeDispose()
+        super.onDestroyView()
     }
 
     override fun showLoading() {

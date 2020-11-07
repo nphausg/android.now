@@ -53,6 +53,10 @@ dependencies {
     api deps.jakewharton.rxbinding3
     api deps.preference.ktx
 
+    // IMAGE LOADING: Glide lib for image loading
+    api deps.glide.runtime
+    kapt deps.glide.compiler
+
     // LOGGER: Timber
     api deps.timber
 

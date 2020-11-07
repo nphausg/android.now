@@ -1,67 +1,140 @@
 package com.global.star.android.shared.libs.imageloader
 
-import android.content.Context
 import android.widget.ImageView
-import com.global.star.android.shared.common.ParameterizedSingleton
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+import com.global.star.android.shared.R
+import java.util.*
 
-class ImageLoader private constructor(val context: Context) {
+class ImageLoader private constructor() : IImageLoader {
 
-    private var loader: ImageCaching? = null
-    private var executorService: ExecutorService? = null
+    private var imageLoaderInterface: IImageLoader? = null
 
-    companion object : ParameterizedSingleton<ImageLoader, Context>(::ImageLoader) {
-        internal var screenWidth = 0
-        internal var screenHeight = 0
+    fun setImageLoader(imageLoaderInterface: IImageLoader): ImageLoader? {
+        this.imageLoaderInterface = imageLoaderInterface
+        return imageLoader
     }
 
-    init {
-        val metrics = context.resources.displayMetrics
-        screenWidth = metrics.widthPixels
-        screenHeight = metrics.heightPixels
-        // Initialize disk cache
-        cacheStrategy(CacheStrategy.DISK)
+    private fun setDefaultLoader() {
+        this.imageLoaderInterface = GlideLoader()
     }
 
-    private fun threadPoolTags(): Pair<Int, String> {
-        return when (loader) {
-            is DiskLruLoader -> {
-                Pair(CacheStrategy.DISK.threadPool(), DiskLruLoader::class.java.name)
-            }
-            else -> {
-                Pair(CacheStrategy.MEMORY.threadPool(), MemLruLoader::class.java.name)
-            }
+    private fun getDefault(): IImageLoader? {
+        if (imageLoaderInterface == null)
+            setDefaultLoader()
+        return imageLoaderInterface
+    }
+
+    override fun <T> load(imageView: ImageView, resource: T) {
+        getDefault()?.load(imageView, resource)
+    }
+
+    override fun <T> load(imageView: ImageView, resource: T, transformType: Int) {
+        getDefault()?.load(imageView, resource, transformType)
+    }
+
+    override fun loadWithHeaders(imageView: ImageView, url: String, headers: LinkedHashMap<String, String>) {
+        getDefault()?.loadWithHeaders(imageView, url, headers)
+    }
+
+    override fun loadWithHeaders(imageView: ImageView, url: String, headers: LinkedHashMap<String, String>, transformType: Int) {
+        getDefault()?.loadWithHeaders(imageView, url, headers, transformType)
+    }
+
+    override fun <T> loadDefault(imageView: ImageView, resource: T, defaultDrawable: Int, transformType: Int) {
+        getDefault()?.loadDefault(imageView, resource, defaultDrawable, transformType)
+    }
+
+    override fun <T> loadDefaultOverride(imageView: ImageView, resource: T,
+                                         defaultDrawable: Int, sizeOfOverride: Int,
+                                         transformType: Int) {
+        getDefault()?.loadDefaultOverride(imageView, resource, defaultDrawable, sizeOfOverride, transformType)
+    }
+
+    override fun <T> roundWithTransition(
+            imageView: ImageView,
+            resource: T,
+            defaultDrawable: Int,
+            radius: Int
+    ) {
+        getDefault()?.roundWithTransition(
+                imageView,
+                resource,
+                defaultDrawable,
+                radius
+        )
+    }
+
+    override fun <T> normalWithDefaultOverride(
+            imageView: ImageView,
+            resource: T,
+            defaultDrawable: Int,
+            sizeOfOverride: Int
+    ) {
+        getDefault()?.normalWithDefaultOverride(
+                imageView,
+                resource,
+                defaultDrawable,
+                sizeOfOverride
+        )
+    }
+
+    override fun <T> circleWithDefaultOverride(
+            imageView: ImageView,
+            resource: T,
+            defaultDrawable: Int,
+            sizeOfOverride: Int
+    ) {
+        getDefault()?.circleWithDefaultOverride(
+                imageView,
+                resource,
+                defaultDrawable,
+                sizeOfOverride
+        )
+    }
+
+    override fun <T> fitCenterWithDefaultOverride(
+            imageView: ImageView,
+            resource: T,
+            defaultDrawable: Int,
+            sizeOfOverride: Int
+    ) {
+        getDefault()?.fitCenterWithDefaultOverride(
+                imageView,
+                resource,
+                defaultDrawable,
+                sizeOfOverride
+        )
+    }
+
+    override fun <T> roundWithDefault(
+            imageView: ImageView,
+            resource: T,
+            defaultDrawable: Int,
+            radius: Int
+    ) {
+        getDefault()?.roundWithDefault(imageView, resource, defaultDrawable, radius)
+    }
+
+    // region Extension
+
+    fun <T> loadAvatar(imageView: ImageView, resource: T) {
+        getDefault()?.loadDefault(imageView, resource, R.drawable.ic_avatar_holder, TransformType.CIRCLE)
+    }
+
+    fun <T> loadRoundCorners(imageView: ImageView, resource: T) {
+        getDefault()?.loadDefault(imageView, resource, R.drawable.ic_image_holder, TransformType.ROUND_CORNER)
+    }
+
+    // endregion
+
+    companion object {
+
+        private var imageLoader: ImageLoader? = null
+
+        @JvmStatic
+        fun plug(): ImageLoader {
+            if (imageLoader == null)
+                imageLoader = ImageLoader()
+            return imageLoader!!
         }
-    }
-
-    fun cacheStrategy(source: CacheStrategy): ImageLoader {
-        loader = when (source) {
-            CacheStrategy.DISK -> DiskLruLoader(context)
-            else -> MemLruLoader(context)
-        }
-        // Define executor service
-        val (threadPool, tag) = threadPoolTags()
-        executorService = Executors.newFixedThreadPool(threadPool, PriorityThreadFactory(tag))
-        return this
-    }
-
-    fun onProgress(callBack: (Long) -> Unit): ImageLoader {
-        loader?.onProgress(callBack)
-        return this
-    }
-
-    fun load(imageView: ImageView, imageUrl: String?) {
-        if (imageUrl.isNullOrEmpty())
-            return
-        loader?.load(imageView, imageUrl)
-    }
-
-    fun flush() {
-        executorService?.execute { loader?.flush() }
-    }
-
-    fun close() {
-        executorService?.execute { loader?.close() }
     }
 }
