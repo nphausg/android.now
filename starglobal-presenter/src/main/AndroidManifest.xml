@@ -20,9 +20,8 @@
 
         <activity
             android:name="com.global.star.android.screens.activities.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

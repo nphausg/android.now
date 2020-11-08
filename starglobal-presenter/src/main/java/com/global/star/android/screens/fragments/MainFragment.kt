@@ -17,8 +17,15 @@ import com.global.star.android.vm.MainViewModel
 import com.jakewharton.rxbinding2.widget.afterTextChangeEvents
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
+import android.os.Parcelable
+
 
 class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragment_main) {
+
+    companion object {
+        const val RECYCLER_STATE = "recycler_state"
+        const val EDIT_TEXT_STATE = "edit_text_state"
+    }
 
     // region [Inject]
     @Inject
@@ -28,12 +35,27 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
 
     private var adapter by autoCleared<GithubUsersAdapters>()
     private var textChangeDispose: Disposable? = null
+    private var isEditTextFocusState = false
+    private var recyclerState: Parcelable? = null
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        recyclerState = binding.recyclerView.layoutManager?.onSaveInstanceState()
+        outState.putParcelable(RECYCLER_STATE, recyclerState)
+        outState.putBoolean(EDIT_TEXT_STATE, isEditTextFocusState)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onSyncViews(savedInstanceState: Bundle?) {
         super.onSyncViews(savedInstanceState)
+        // Previous
+        recyclerState = savedInstanceState?.getParcelable(RECYCLER_STATE)
+        isEditTextFocusState = savedInstanceState?.getBoolean(EDIT_TEXT_STATE) ?: false
+
         binding.toolbar.onLeftClickListener { viewModel.goBack() }
         adapter = GithubUsersAdapters()
+        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerState)
         binding.recyclerView.adapter = adapter
+
     }
 
     override fun onSyncEvents() {
@@ -46,18 +68,15 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
                 },
                 {
                     dismissLoading()
-                    if (it is SharedExceptions.NoNetworkConnection) {
-                        showError(getString(R.string.common_error_connect))
-                    } else {
+                    if (it !is SharedExceptions.NoNetworkConnection) {
                         showError(it.message)
                     }
                 },
                 { showLoading() })
         }
         adapter.addLoadStateListener { loadState ->
-            val isError = loadState.isError()
             val isEmpty = loadState.isLoading() && adapter.isEmpty()
-            if (isEmpty || isError) {
+            if (isEmpty) {
                 binding.viewEmpty.show()
                 binding.recyclerView.gone()
             } else {
@@ -65,26 +84,40 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
                 binding.recyclerView.visible()
             }
         }
-        textChangeDispose = binding.editQuery.afterTextChangeEvents()
-            .skipInitialValue()
-            .compose(applyFormValidator())
-            .subscribe({ event ->
-                val length = event.editable()?.length ?: 0
-                if (length > 1) {
-                    viewModel.searchPagingUsers(event.editable().toString())
-                } else {
-                    viewModel.loadRecentUsers()
-                }
-            }, { it.printStackTrace() })
 
         binding.recyclerView.onItemClick { _, position ->
             viewModel.moveToUser(adapter.get(position))
         }
+
+        addTextChanged()
     }
 
-    override fun onDestroyView() {
+    override fun onDestroy() {
+        safeDisposeTextChanged()
+        super.onDestroy()
+    }
+
+    private fun addTextChanged() {
+        if (!isEditTextFocusState) {
+            isEditTextFocusState = true
+            textChangeDispose = binding.editQuery.afterTextChangeEvents()
+                .skipInitialValue()
+                .compose(applyFormValidator())
+                .subscribe({ event ->
+                    val length = event.editable()?.length ?: 0
+                    if (length > 1) {
+                        viewModel.searchPagingUsers(event.editable().toString())
+                    } else {
+                        viewModel.loadRecentUsers()
+                    }
+                }, { it.printStackTrace() })
+        }
+
+    }
+
+    private fun safeDisposeTextChanged() {
         textChangeDispose.safeDispose()
-        super.onDestroyView()
+        isEditTextFocusState = false
     }
 
     override fun showLoading() {
