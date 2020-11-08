@@ -2,7 +2,7 @@ package com.global.star.android.data.api
 
 import com.global.star.android.data.entities.GithubUserEntities
 import com.global.star.android.data.entities.UserSearchResponse
-import io.reactivex.Single
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,5 +18,5 @@ interface UserNetworkService {
     ): UserSearchResponse
 
     @GET("users/{username}")
-    fun getUser(@Path("username") username: String?): Single<GithubUserEntities>
+    fun getUser(@Path("username") username: String?): Observable<GithubUserEntities>
 }

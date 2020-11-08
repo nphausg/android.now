@@ -1,9 +1,14 @@
 package com.global.star.android.data
 
+import android.app.Application
+import android.content.Context
+import androidx.room.Room
 import com.global.star.android.data.api.UnAuthorizationHeaderInterceptor
 import com.global.star.android.data.api.UserNetworkModule
 import com.global.star.android.data.api.UserNetworkService
 import com.global.star.android.data.common.HeaderType
+import com.global.star.android.data.db.GithubUserDao
+import com.global.star.android.data.db.LocalDB
 import com.global.star.android.data.repositories.GithubUserRepositoryImpl
 import com.global.star.android.domain.repositories.GithubUserRepository
 import dagger.Binds
@@ -42,6 +47,21 @@ class DataModule {
                     HttpLoggingInterceptor.Level.NONE
                 }
         }
+    }
+
+    @Singleton
+    @Provides
+    fun provideDb(context: Context): LocalDB {
+        return Room
+            .databaseBuilder(context, LocalDB::class.java, "star.local.db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserDao(db: LocalDB): GithubUserDao {
+        return db.userDao()
     }
 }
 
