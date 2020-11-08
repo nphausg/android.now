@@ -28,8 +28,6 @@ dependencies {
     implementation(deps.navigation.ui_ktx) {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
-    implementation deps.arch_core.runtime
-
     // androidx.paging
     api deps.paging_ktx
     api deps.paging_common
