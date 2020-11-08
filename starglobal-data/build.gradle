@@ -7,6 +7,7 @@ apply from: '../starglobal-shared/shared_dependencies.gradle'
 apply from: '../starglobal-shared/dagger_dependencies.gradle'
 apply from: '../starglobal-shared/network_dependencies.gradle'
 apply from: '../starglobal-shared/libs_dependencies.gradle'
+apply from: '../starglobal-shared/test_dependencies.gradle'
 
 dependencies {
     implementation project(path: ':starglobal-shared')
