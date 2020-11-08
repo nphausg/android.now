@@ -5,6 +5,7 @@ apply plugin: 'kotlin-allopen'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
+apply from: '../android_sonarqube.gradle'
 apply from: '../artifacts.gradle'
 apply from: '../shared_dependencies.gradle'
 

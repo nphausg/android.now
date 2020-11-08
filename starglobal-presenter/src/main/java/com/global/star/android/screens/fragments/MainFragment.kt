@@ -17,13 +17,10 @@ import com.global.star.android.vm.MainViewModel
 import com.jakewharton.rxbinding2.widget.afterTextChangeEvents
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
-import android.os.Parcelable
-
 
 class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     companion object {
-        const val RECYCLER_STATE = "recycler_state"
         const val EDIT_TEXT_STATE = "edit_text_state"
     }
 
@@ -36,11 +33,8 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
     private var adapter by autoCleared<GithubUsersAdapters>()
     private var textChangeDispose: Disposable? = null
     private var isEditTextFocusState = false
-    private var recyclerState: Parcelable? = null
 
     override fun onSaveInstanceState(outState: Bundle) {
-        recyclerState = binding.recyclerView.layoutManager?.onSaveInstanceState()
-        outState.putParcelable(RECYCLER_STATE, recyclerState)
         outState.putBoolean(EDIT_TEXT_STATE, isEditTextFocusState)
         super.onSaveInstanceState(outState)
     }
@@ -48,12 +42,9 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
     override fun onSyncViews(savedInstanceState: Bundle?) {
         super.onSyncViews(savedInstanceState)
         // Previous
-        recyclerState = savedInstanceState?.getParcelable(RECYCLER_STATE)
         isEditTextFocusState = savedInstanceState?.getBoolean(EDIT_TEXT_STATE) ?: false
-
         binding.toolbar.onLeftClickListener { viewModel.goBack() }
         adapter = GithubUsersAdapters()
-        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerState)
         binding.recyclerView.adapter = adapter
 
     }
@@ -92,9 +83,9 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
         addTextChanged()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         safeDisposeTextChanged()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     private fun addTextChanged() {

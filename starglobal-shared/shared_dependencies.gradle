@@ -4,7 +4,7 @@ dependencies {
     api deps.room.runtime
     api deps.room.rxjava2
     kapt deps.room.compiler
-
+    kapt deps.room.room_ktx
     // Android X
     implementation deps.constraint_layout
     implementation deps.support.material

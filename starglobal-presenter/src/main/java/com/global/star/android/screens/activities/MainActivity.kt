@@ -14,6 +14,7 @@ import com.global.star.android.shared.libs.rxlivedata.observe
 import com.global.star.android.shared.screens.activities.BindingSharedActivity
 import com.global.star.android.vm.MainUiEffect
 import com.global.star.android.vm.MainViewModel
+import com.global.star.android.vm.UserViewModel
 import javax.inject.Inject
 
 class MainActivity : BindingSharedActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -22,6 +23,7 @@ class MainActivity : BindingSharedActivity<ActivityMainBinding>(R.layout.activit
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: MainViewModel by viewModels { viewModelFactory }
+    private val userViewModel: UserViewModel by viewModels { viewModelFactory }
     // endregion
 
     private lateinit var navController: NavController
@@ -39,6 +41,7 @@ class MainActivity : BindingSharedActivity<ActivityMainBinding>(R.layout.activit
             when (effect) {
                 is MainUiEffect.GoUser -> {
                     navController.navigateIfSafe(MainFragmentDirections.actionMainToUser(effect.user))
+                    userViewModel.getUser(effect.user?.login)
                 }
                 else -> onBackPressed()
             }

@@ -2,7 +2,6 @@ package com.global.star.android.screens.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.global.star.android.R
@@ -20,7 +19,7 @@ class UserFragment : BindingSharedFragment<FragmentUserBinding>(R.layout.fragmen
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
-    private val userViewModel: UserViewModel by viewModels { viewModelFactory }
+    private val userViewModel: UserViewModel by activityViewModels { viewModelFactory }
     // endregion
 
     private val params by navArgs<UserFragmentArgs>()
@@ -34,16 +33,9 @@ class UserFragment : BindingSharedFragment<FragmentUserBinding>(R.layout.fragmen
         }
     }
 
-    override fun onSyncEvents() {
-        super.onSyncEvents()
-        observe(userViewModel.user) { binding.item = it }
-    }
-
     override fun onSyncData() {
         super.onSyncData()
-        params.user?.let {
-            binding.toolbar.setTitle(it.login)
-            userViewModel.getUser(it.login)
-        }
+        params.user?.let { binding.toolbar.setTitle(it.login) }
+        observe(userViewModel.user) { binding.item = it }
     }
 }

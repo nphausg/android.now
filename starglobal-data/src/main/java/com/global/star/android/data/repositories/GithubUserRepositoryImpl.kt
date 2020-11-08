@@ -1,32 +1,44 @@
 package com.global.star.android.data.repositories
 
+import androidx.paging.Pager
 import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.paging.rxjava2.observable
 import com.global.star.android.data.api.UserNetworkService
 import com.global.star.android.data.db.GithubUserDao
-import com.global.star.android.data.paging.GithubUsersPagingSource
+import com.global.star.android.data.db.GithubUserRemoteKeysDao
+import com.global.star.android.data.db.LocalDB
+import com.global.star.android.data.paging.GithubUsersRxRemoteMediator
 import com.global.star.android.data.transform.EntitiesTransformer
 import com.global.star.android.domain.entities.GithubUser
 import com.global.star.android.domain.repositories.GithubUserRepository
-import com.global.star.android.shared.common.exceptions.SharedExceptions
-import com.global.star.android.shared.libs.network.NetworkHandler
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class GithubUserRepositoryImpl @Inject constructor(
-    private val networkHandler: NetworkHandler,
-    private val userService: UserNetworkService,
+    private val networkService: UserNetworkService,
     private val userDao: GithubUserDao,
+    private val remoteKeysDao: GithubUserRemoteKeysDao,
+    private val database: LocalDB
 ) : SharedRepository(), GithubUserRepository {
 
     override fun searchPagingUsers(query: HashMap<String, Any>): Observable<PagingData<GithubUser>> {
-        return if (networkHandler.isNetworkAvailable())
-            createPagerConfig(GithubUsersPagingSource(query, userService)).observable
-        else
-            Observable.error(SharedExceptions.NoNetworkConnection)
+        return Pager(
+            config = getPagingConfig(),
+            remoteMediator = GithubUsersRxRemoteMediator(
+                query,
+                networkService,
+                userDao,
+                remoteKeysDao,
+                database
+            ),
+            pagingSourceFactory = { database.userDao().getAll() }
+        ).observable.map { paging ->
+            paging.map { EntitiesTransformer.fromGithubUserEntitiesToGithubUser(it) }
+        }
+        // createPagerConfig(GithubUsersPagingSource(query, networkService)).observable
     }
-
 
     /**
      * If load data from remote got error with any problem, then push data from localDB
@@ -34,7 +46,7 @@ class GithubUserRepositoryImpl @Inject constructor(
      */
     override fun getUser(username: String?): Observable<GithubUser> {
         val findByLoginInDB = userDao.findByLogin(username).subscribeOn(Schedulers.io())
-        return userService.getUser(username)
+        return networkService.getUser(username)
             .flatMap {
                 userDao.insert(it)
                     .subscribeOn(Schedulers.io())

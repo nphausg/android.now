@@ -8,7 +8,9 @@ import com.global.star.android.data.api.UserNetworkModule
 import com.global.star.android.data.api.UserNetworkService
 import com.global.star.android.data.common.HeaderType
 import com.global.star.android.data.db.GithubUserDao
+import com.global.star.android.data.db.GithubUserRemoteKeysDao
 import com.global.star.android.data.db.LocalDB
+import com.global.star.android.data.entities.GithubUserRemoteKeys
 import com.global.star.android.data.repositories.GithubUserRepositoryImpl
 import com.global.star.android.domain.repositories.GithubUserRepository
 import dagger.Binds
@@ -62,6 +64,12 @@ class DataModule {
     @Provides
     fun provideUserDao(db: LocalDB): GithubUserDao {
         return db.userDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserRemoteKeyDao(db: LocalDB): GithubUserRemoteKeysDao {
+        return db.userRemoteKeyDao()
     }
 }
 

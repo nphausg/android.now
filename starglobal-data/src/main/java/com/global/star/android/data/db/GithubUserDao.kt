@@ -1,5 +1,6 @@
 package com.global.star.android.data.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -19,6 +20,10 @@ interface GithubUserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(users: List<GithubUserEntities>?)
+
+
+    @Query("SELECT * FROM users")
+    fun getAll(): PagingSource<Int, GithubUserEntities>
 
     /**
      * Find user by login
