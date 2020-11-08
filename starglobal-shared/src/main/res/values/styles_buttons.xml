@@ -43,4 +43,5 @@
         <item name="android:textAlignment">viewStart</item>
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+
 </resources>

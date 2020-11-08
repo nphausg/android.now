@@ -30,6 +30,7 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
 
     override fun onSyncViews(savedInstanceState: Bundle?) {
         super.onSyncViews(savedInstanceState)
+        binding.toolbar.onLeftClickListener { viewModel.goBack() }
         adapter = GithubUsersAdapters()
         binding.recyclerView.adapter = adapter
     }

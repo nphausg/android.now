@@ -7,6 +7,14 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
+        <com.global.star.android.shared.screens.views.SharedToolBar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:shared_background="@color/colorPrimary"
+            app:shared_drawableLeft="@drawable/ic_vector_back"
+            app:shared_title="@string/app_name" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edit_query"
             android:layout_width="match_parent"

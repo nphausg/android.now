@@ -39,6 +39,10 @@ class MainViewModel @Inject constructor(
 
     }
 
+    fun goBack() {
+        dispatchEvent(MainUiEffect.GoBack)
+    }
+
     fun moveToUser(user: GithubUser?) {
         dispatchEvent(MainUiEffect.GoUser(user))
     }

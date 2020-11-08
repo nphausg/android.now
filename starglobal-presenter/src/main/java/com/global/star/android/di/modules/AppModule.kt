@@ -6,6 +6,7 @@ import com.global.star.android.screens.fragments.MainFragment
 import com.global.star.android.screens.fragments.UserFragment
 import com.global.star.android.shared.di.ViewModelKey
 import com.global.star.android.vm.MainViewModel
+import com.global.star.android.vm.UserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -19,6 +20,11 @@ interface AppModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserViewModel::class)
+    fun bindUserViewModel(viewModel: UserViewModel): ViewModel
     // endregion
 
     // region [Activity]

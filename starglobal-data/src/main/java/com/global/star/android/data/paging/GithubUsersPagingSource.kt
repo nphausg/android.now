@@ -2,6 +2,7 @@ package com.global.star.android.data.paging
 
 import com.global.star.android.data.api.UserNetworkService
 import com.global.star.android.data.common.CorePagingSource
+import com.global.star.android.data.transform.EntitiesTransformer
 import com.global.star.android.domain.entities.GithubUser
 
 class GithubUsersPagingSource(
@@ -15,7 +16,7 @@ class GithubUsersPagingSource(
             val response = service.searchPagingUsers(query, currentPageIndex, params.loadSize)
             val items = response.items ?: listOf()
             result(currentPageIndex, items.map {
-                GithubUser(userName = it.userName, avatarUrl = it.avatarUrl)
+                EntitiesTransformer.fromGithubUserEntitiesToGithubUser(it)
             })
         } catch (e: Exception) {
             return LoadResult.Error(e)

@@ -46,7 +46,7 @@ class GithubUsersAdapters : CorePagingDataAdapter<GithubUser>(COMPARE) {
     companion object {
         private val COMPARE = object : DiffUtil.ItemCallback<GithubUser>() {
             override fun areContentsTheSame(oldItem: GithubUser, newItem: GithubUser): Boolean {
-                return oldItem.userName == newItem.userName
+                return oldItem.login == newItem.login
             }
 
             override fun areItemsTheSame(oldItem: GithubUser, newItem: GithubUser): Boolean {

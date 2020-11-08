@@ -40,6 +40,7 @@ class MainActivity : BindingSharedActivity<ActivityMainBinding>(R.layout.activit
                 is MainUiEffect.GoUser -> {
                     navController.navigateIfSafe(MainFragmentDirections.actionMainToUser(effect.user))
                 }
+                else -> onBackPressed()
             }
         }
     }
