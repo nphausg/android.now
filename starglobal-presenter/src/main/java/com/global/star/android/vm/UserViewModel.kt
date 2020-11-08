@@ -6,7 +6,7 @@ import com.global.star.android.domain.entities.GithubUser
 import com.global.star.android.domain.usecases.GetUserByUserNameUseCase
 import com.global.star.android.shared.common.extensions.SingleLiveEvent
 import com.global.star.android.shared.libs.rxlivedata.addTo
-import com.global.star.android.shared.libs.rxlivedata.applySingleIoScheduler
+import com.global.star.android.shared.libs.rxlivedata.applyObservableIoScheduler
 import com.global.star.android.shared.vm.SharedViewModel
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class UserViewModel @Inject constructor(
 
     fun getUser(userName: String?) {
         getUserByUserNameUseCase.execute(userName)
-            .compose(applySingleIoScheduler())
+            .compose(applyObservableIoScheduler())
             .subscribe(
                 { _user.postValue(it) },
                 { it.printStackTrace() })

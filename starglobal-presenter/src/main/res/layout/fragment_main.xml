@@ -20,7 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_margin="@dimen/margin_medium"
+            android:background="@drawable/all_style_form_border"
+            android:hint="@string/users_searching"
             android:inputType="text"
+            android:paddingHorizontal="@dimen/margin_medium"
             android:scaleType="fitCenter" />
 
         <FrameLayout
@@ -57,8 +60,8 @@
                 android:id="@+id/view_empty"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:shared_message="@string/app_name"
-                app:shared_title="@string/app_name" />
+                app:shared_message="@string/common_empty_list"
+                app:shared_title="@string/common_empty" />
 
         </FrameLayout>
 

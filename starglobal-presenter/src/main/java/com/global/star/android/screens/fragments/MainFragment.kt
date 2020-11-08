@@ -7,6 +7,7 @@ import com.global.star.android.R
 import com.global.star.android.databinding.FragmentMainBinding
 import com.global.star.android.screens.adapters.GithubUsersAdapters
 import com.global.star.android.shared.common.autoCleared
+import com.global.star.android.shared.common.exceptions.SharedExceptions
 import com.global.star.android.shared.common.extensions.*
 import com.global.star.android.shared.libs.rxlivedata.applyFormValidator
 import com.global.star.android.shared.libs.rxlivedata.observe
@@ -45,7 +46,11 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
                 },
                 {
                     dismissLoading()
-                    showError(it.message)
+                    if (it is SharedExceptions.NoNetworkConnection) {
+                        showError(getString(R.string.common_error_connect))
+                    } else {
+                        showError(it.message)
+                    }
                 },
                 { showLoading() })
         }
