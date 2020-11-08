@@ -32,5 +32,7 @@ data class GithubUserEntities(
     @field:SerializedName("login")
     override val login: String = "",
     @field:SerializedName("name")
-    override val name: String? = ""
+    override val name: String? = "",
+    @field:SerializedName("id")
+    override val id: Long
 ) : IGithubUserModel, Parcelable

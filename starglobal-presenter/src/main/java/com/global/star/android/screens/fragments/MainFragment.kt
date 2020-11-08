@@ -103,7 +103,6 @@ class MainFragment : BindingSharedFragment<FragmentMainBinding>(R.layout.fragmen
                     }
                 }, { it.printStackTrace() })
         }
-
     }
 
     private fun safeDisposeTextChanged() {

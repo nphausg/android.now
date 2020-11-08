@@ -5,7 +5,6 @@ buildscript {
         classpath "com.android.tools.build:gradle:${versions.android_gradle_plugin}"
         classpath deps.kotlin.plugin
         classpath deps.kotlin.allopen
-        classpath deps.navigation.safe_args_plugin
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${versions.sonarqube}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin_version"
     }

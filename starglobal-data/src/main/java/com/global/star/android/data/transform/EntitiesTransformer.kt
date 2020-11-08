@@ -7,8 +7,9 @@ object EntitiesTransformer {
 
     fun fromGithubUserEntitiesToGithubUser(entity: GithubUserEntities): GithubUser {
         return GithubUser(
-            login = entity.login,
+            id = entity.id,
             bio = entity.bio,
+            login = entity.login,
             name = entity.name,
             avatarUrl = entity.avatarUrl,
             htmlUrl = entity.htmlUrl,

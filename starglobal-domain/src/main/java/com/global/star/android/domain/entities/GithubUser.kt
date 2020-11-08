@@ -17,4 +17,5 @@ class GithubUser(
     override val following: Int,
     override val login: String? = "",
     override val name: String? = "",
+    override val id: Long,
 ) : Parcelable, IGithubUserModel

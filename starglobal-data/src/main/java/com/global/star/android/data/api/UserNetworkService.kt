@@ -11,7 +11,7 @@ import retrofit2.http.QueryMap
 
 interface UserNetworkService {
 
-    @GET("search/users")
+    @GET("search/users?order=ASC")
     fun searchPagingUsers(
         @QueryMap query: HashMap<String, Any>,
         @Query("page") page: Int,

@@ -118,6 +118,6 @@ class GithubUsersRxRemoteMediator(
 
     companion object {
         const val INVALID_PAGE = -1
-        const val PER_PAGE = 10
+        const val PER_PAGE = 50
     }
 }

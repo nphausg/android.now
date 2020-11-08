@@ -2,8 +2,8 @@ package com.global.star.android.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.global.star.android.screens.activities.MainActivity
+import com.global.star.android.screens.activities.ProfileActivity
 import com.global.star.android.screens.fragments.MainFragment
-import com.global.star.android.screens.fragments.UserFragment
 import com.global.star.android.shared.di.ViewModelKey
 import com.global.star.android.vm.MainViewModel
 import com.global.star.android.vm.UserViewModel
@@ -30,14 +30,14 @@ interface AppModule {
     // region [Activity]
     @ContributesAndroidInjector
     fun contributeMainActivity(): MainActivity
+
+    @ContributesAndroidInjector
+    fun contributeProfileActivity(): ProfileActivity
     // endregion
 
     // region [Fragment]
     @ContributesAndroidInjector
     fun contributeMainFragment(): MainFragment
-
-    @ContributesAndroidInjector
-    fun contributeUserFragment(): UserFragment
     // endregion
 
 }

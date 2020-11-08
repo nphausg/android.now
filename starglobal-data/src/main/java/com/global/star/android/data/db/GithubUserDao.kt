@@ -22,7 +22,7 @@ interface GithubUserDao {
     fun insertAll(users: List<GithubUserEntities>?)
 
 
-    @Query("SELECT * FROM users")
+    @Query("SELECT * FROM users ORDER BY id ASC")
     fun getAll(): PagingSource<Int, GithubUserEntities>
 
     /**
