@@ -1,6 +1,5 @@
 dependencies {
     testImplementation deps.test.junit
-    testImplementation deps.test.kotlin_test
     testImplementation deps.test.ext_junit
     testImplementation deps.test.benchmark
     testImplementation deps.test.benchmark_gradle

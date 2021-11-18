@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>starglobal-presenter</name>
-	<comment>Project app created by Buildship.</comment>
+	<name>starglobal-domain</name>
+	<comment>Project starglobal-domain created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -22,7 +22,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>0</id>
+			<id>1637201362963</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
