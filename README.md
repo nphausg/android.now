@@ -9,7 +9,16 @@
     <img src="https://circleci.com/gh/twilio-labs/plugin-rtc.svg?style=svg">
 </a>
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)
+
+## Documents
+
+<h4 align="center">
+<img src="attach_architecture_paging.png" width="30%" vspace="10" hspace="10">
+<img src="attach_architecture_component.png" width="30%" vspace="10" hspace="10"">
+<img src="attach_clean_architecture.png" width="30%" vspace="10" hspace="10""><br>
+</h4>
+
 ## 🌈 Technical Stack
 
 This project takes advantage of many popular libraries, plugins and tools of the Android ecosystem. Most of the libraries are in the stable version, unless there is a good reason to use non-stable dependency.
@@ -49,7 +58,7 @@ I made an early decision to rewrite the app from scratch to bring it in line wit
 - [Glide](https://github.com/bumptech/glide) - Glide is a fast and efficient open source media management and image loading framework for Android that wraps media decoding, memory and disk caching, and resource pooling into a simple and easy to use interface.
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)
 ## 👇 Authors
 <p>
     <a href="https://nphau.medium.com/" target="_blank">
