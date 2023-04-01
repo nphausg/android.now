@@ -1,0 +1,5 @@
+/*
+ * Created by $username on $today
+ * Copyright (c) $today.year . All rights reserved.
+ * Last modified $file.lastModified
+ */

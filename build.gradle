@@ -1,21 +1,16 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    apply from: 'starglobal-shared/versions.gradle'
-    addRepos(repositories)
+    repositories {
+        google()
+        mavenCentral()
+    }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:1.6.0"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.44.2'
     }
 }
-repositories {
-    google()
-    mavenCentral()
-    jcenter()
-}
 allprojects {
-    addRepos(repositories)
     afterEvaluate {
         tasks.withType(JavaCompile.class) {
             options.compilerArgs << "-Xmaxerrs" << "10000"
@@ -29,7 +24,7 @@ task clean(type: Delete) {
 }
 
 task zipAll(type: Zip) {
-    archiveBaseName = rootProject.name
+    archiveFileName = rootProject.name + ".zip"
     from(rootDir) {
         exclude '**/.idea/**'
         exclude '**/build/**'

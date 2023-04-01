@@ -1,3 +1,0 @@
-apply from: '../starglobal-shared/shared_dependencies.gradle'
-apply from: '../starglobal-shared/dagger_dependencies.gradle'
-apply from: '../starglobal-shared/test_dependencies.gradle'

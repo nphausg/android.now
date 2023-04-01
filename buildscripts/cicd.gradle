@@ -1,0 +1,10 @@
+def props = new Properties()
+file(rootDir.toString() + "/secrets.properties").withInputStream { props.load(it) }
+ext {
+    API_KEY = props.getProperty('API_KEY') ?: System.getenv('API_KEY')
+    BACKEND_URL = props.getProperty('BACKEND_URL') ?: System.getenv('BACKEND_URL')
+    MIN_SDK = 24
+    TARGET_SDK = 33
+    COMPILE_SDK = 33
+    KOTLIN_COMPOSE_COMPILER = "1.4.1"
+}
