@@ -3,6 +3,6 @@ android.applicationVariants.all { variant ->
         def flavor = variant.name
         def versionName = variant.versionName
         def date = new Date().format("yyyyMMdd_HHmmssSSS")
-        outputFileName = "nphausg.ES_${flavor}_v${versionName}_${date}.apk"
+        outputFileName = "nphausg.NOW_${flavor}_v${versionName}_${date}.apk"
     }
 }

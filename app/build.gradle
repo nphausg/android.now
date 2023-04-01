@@ -2,12 +2,12 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlinx-serialization'
     id 'dagger.hilt.android.plugin'
 }
 
-apply from: '../buildscripts/di.gradle'
-apply from: '../buildscripts/common.gradle'
-apply from: '../buildscripts/artifacts.gradle'
+apply from: rootDir.toString() + '/buildscripts/common.gradle'
+apply from: rootDir.toString() + '/buildscripts/artifacts.gradle'
 
 android {
 
@@ -15,8 +15,6 @@ android {
 
     defaultConfig {
         applicationId "com.nphausg.app.embeddedserver"
-        buildConfigField "String", "API_KEY", API_KEY
-        buildConfigField "String", "BACKEND_URL", BACKEND_URL
     }
 
     buildFeatures {
@@ -60,10 +58,6 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 
-    // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
-
     // Embedded Server
     implementation 'io.ktor:ktor-server-core:2.2.4'
     implementation 'io.ktor:ktor-server-netty:2.2.4'
@@ -72,6 +66,12 @@ dependencies {
     implementation 'io.ktor:ktor-server-content-negotiation:2.2.4'
     implementation 'io.ktor:ktor-server-cors:2.2.4'
 
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.44.2'
+    kapt 'com.google.dagger:hilt-compiler:2.44.2'
+
+    // Module
     implementation project(':shared')
+    implementation project(':network')
 
 }

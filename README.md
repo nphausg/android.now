@@ -2,9 +2,9 @@
 
 <p align="center">
 <a>
-    <img src="https://img.shields.io/badge/kotlin-v1.6.0-blue.svg">
-    <img src="https://img.shields.io/badge/gradle-7.0.3-blueviolet.svg">
-    <img src="https://img.shields.io/badge/API-21%2B-blue.svg?style=flat">
+    <img src="https://img.shields.io/badge/kotlin-v1.8.0-blue.svg">
+    <img src="https://img.shields.io/badge/gradle-7.4.2-blueviolet.svg">
+    <img src="https://img.shields.io/badge/API-23%2B-blue.svg?style=flat">
     <img src="https://img.shields.io/badge/License-Apache%202.0-success.svg">
     <img src="https://circleci.com/gh/twilio-labs/plugin-rtc.svg?style=svg">
 </a>
@@ -14,9 +14,9 @@
 ## Documents
 
 <h4 align="center">
-<img src="attach_architecture_paging.png" width="30%" vspace="10" hspace="10">
-<img src="attach_architecture_component.png" width="30%" vspace="10" hspace="10"">
-<img src="attach_clean_architecture.png" width="30%" vspace="10" hspace="10""><br>
+<img src="docs/attach_architecture_paging.png" width="30%" vspace="10" hspace="10">
+<img src="docs/attach_architecture_component.png" width="30%" vspace="10" hspace="10"">
+<img src="docs/attach_clean_architecture.png" width="30%" vspace="10" hspace="10""><br>
 </h4>
 
 ## 🌈 Technical Stack
@@ -31,7 +31,7 @@ I used a Repository layer for handling data operations
 
 ### Kotlin
 
-[![made-with-Kotlin](https://img.shields.io/badge/Made%20with-Kotlin.v1.6.0-1f425f.svg)](https://kotlinlang.org/)
+[![made-with-Kotlin](https://img.shields.io/badge/Made%20with-Kotlin.v1.8.0-1f425f.svg)](https://kotlinlang.org/)
 
 I made an early decision to rewrite the app from scratch to bring it in line with our thinking about modern Android architecture. Using Kotlin for the rewrite was an easy choice: I liked Kotlin's expressive, concise, and powerful syntax; I found that Kotlin's support for safety features for nullability and immutability made our code more resilient; and I leveraged the enhanced functionality provided by Android Ktx extensions.
 

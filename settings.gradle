@@ -9,4 +9,6 @@ include ':app'
 //
 include ':shared'
 project(':shared').projectDir = new File(rootDir, 'core/shared')
+include ':network'
+project(':network').projectDir = new File(rootDir, 'core/network')
 rootProject.name = "android.now"

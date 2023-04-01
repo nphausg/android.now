@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface EnvironmentModule {
+interface EnvironmentModules {
 
     @Binds
     fun bindEmbeddedServer(embeddedServer: EmbeddedServerImpl): EmbeddedServer

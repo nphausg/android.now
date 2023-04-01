@@ -1,15 +1,26 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlinx-serialization'
+    id 'dagger.hilt.android.plugin'
 }
 
+apply from: rootDir.toString() + '/buildscripts/cicd.gradle'
 apply from: rootDir.toString() + '/buildscripts/common.gradle'
 
 android {
     namespace 'com.nphausg.app.now.shared'
+
+    defaultConfig {
+        buildConfigField "String", "API_KEY", API_KEY
+        buildConfigField "String", "BACKEND_URL", BACKEND_URL
+    }
+
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.44.2'
+    kapt 'com.google.dagger:hilt-compiler:2.44.2'
 }

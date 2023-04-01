@@ -4,7 +4,7 @@
  * Last modified 4/1/23, 12:26 PM
  */
 
-package com.nphausg.app.now.domain.environment
+package com.nphausg.app.now.shared.data.environment
 
 interface EnvironmentProvider {
     val baseUrl: String
