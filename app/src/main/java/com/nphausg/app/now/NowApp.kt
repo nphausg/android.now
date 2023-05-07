@@ -8,7 +8,6 @@ package com.nphausg.app.now
 
 import android.app.Application
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -18,7 +17,4 @@ class NowApp : Application(), DefaultLifecycleObserver {
         super<Application>.onCreate()
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        super.onDestroy(owner)
-    }
 }

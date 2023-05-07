@@ -8,6 +8,8 @@ plugins {
 
 apply from: rootDir.toString() + '/buildscripts/cicd.gradle'
 apply from: rootDir.toString() + '/buildscripts/common.gradle'
+apply from: rootDir.toString() + '/buildscripts/di.gradle'
+apply from: rootDir.toString() + '/buildscripts/test.gradle'
 
 android {
     namespace 'com.nphausg.app.now.shared'
@@ -20,7 +22,5 @@ android {
 }
 
 dependencies {
-    // Hilt
-    implementation 'com.google.dagger:hilt-android:2.44.2'
-    kapt 'com.google.dagger:hilt-compiler:2.44.2'
+
 }
